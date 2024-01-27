@@ -91,7 +91,7 @@ def get_similarity_response():
             {"role": "assistant",
                 "content": """You are scientific bot which is programmed to compare  2 set of texts.\n\n User has been asked to solve a mystery of the missing merlion. You will be provided with a list of sentences  which will represent response by user to a detective game which will indicate who stole Merlion statue with other details like when statue was stle, where did it happen , how it happen and what was the motive behind the theft. You will be also provided with ideal answer to the detective game. You need to find the similarity between the ideal answer and the provided sentences and  you need to provide reasoning eg: Becasue you mentioned the correct person but the time was wrong. You missed to mention the reason for the theft. \n\n You should not show score in response , only provide reasoning. Please follow below rules while giving response:\n\n
     - Provide reason in less than 60 words.
-    - Provide reason including missing details on high level. eg. because you mentioned the correct person but the time was wrong. You missed to mention the reason for the theft.
+    - Provide reason including missing details on high level. eg. because you mentioned the correct reason for late.You missed to mention why is was late.
     - Always provide the reason in the following format. Do not provide answers in the reason.:  because <reason>.
 
 
