@@ -3,10 +3,14 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import openai
 from sentence_transformers import SentenceTransformer, util
+from models import db, ma, Results, initialize_db, ResultsSchema
 
 app = Flask(__name__)
 CORS(app)
+initialize_db(app)
 app.app_context().push()
+
+results_schema = ResultsSchema()
 
 openai.api_type = "azure"
 openai.api_version = "2023-05-15"
@@ -148,6 +152,23 @@ IDEAL ANSWER:
     score=  get_semantic_similarity(user_message, ideal_answer)
     # Show the score in % in repsone along with reason for score. Put these into natural language easier for user to understand.
     return jsonify({"score": str(round(score * 100)) + "%", "reason": reason})
+
+@app.route('/capture-result', methods=['POST'])
+def capture_result():
+    # Extract the data from the request
+    teamname = request.json['teamname']
+    score = request.json['score']
+    submitted_text = request.json['submitted_text']
+
+    # Create a new Results object
+    new_result = Results(teamname, score, submitted_text)
+
+    # Add the new result to the database
+    db.session.add(new_result)
+    db.session.commit()
+
+    # Return a success message
+    return results_schema.jsonify(new_result), 201
 
 # Run Server
 if __name__ == '__main__':

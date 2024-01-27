@@ -4,3 +4,7 @@ flask_restful
 flask-cors
 openai==0.28
 sentence_transformers
+flask_marshmallow
+flask_swagger_ui
+flask-sqlalchemy
+pyodbc

@@ -4,11 +4,16 @@ FROM debian:11
 # Set the working directory in the container
 WORKDIR /app
 
-# Install dependencies
-RUN apt-get update && apt-get install -y --fix-missing python3-pip 
+# Add current directory code to /app in container
+ADD . /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Install dependencies
+RUN apt-get update && apt-get install -y --fix-missing python3-pip curl
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
+RUN curl https://packages.microsoft.com/config/debian/11/prod.list | tee /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get update
+RUN ACCEPT_EULA=Y apt-get install -y msodbcsql18
 
 # Install any needed packages specified in requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
